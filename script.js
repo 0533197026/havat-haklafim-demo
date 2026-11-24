@@ -139,9 +139,73 @@ function showAdminTab(tab) {
 
 const bagDialog = document.getElementById('bag-dialog');
 document.getElementById('open-bag').addEventListener('click', () => bagDialog.classList.remove('hidden'));
+document.getElementById('bag-action').addEventListener('click', () => bagDialog.classList.remove('hidden'));
 document.getElementById('close-bag').addEventListener('click', () => bagDialog.classList.add('hidden'));
 bagDialog.addEventListener('click', (event) => {
   if (event.target === bagDialog) bagDialog.classList.add('hidden');
+});
+
+const shopDialog = document.getElementById('shop-dialog');
+document.getElementById('shop-action').addEventListener('click', () => shopDialog.classList.remove('hidden'));
+document.querySelectorAll('[data-close-dialog]').forEach((button) => {
+  button.addEventListener('click', () => {
+    document.getElementById(button.dataset.closeDialog).classList.add('hidden');
+  });
+});
+shopDialog.addEventListener('click', (event) => {
+  if (event.target === shopDialog) shopDialog.classList.add('hidden');
+});
+
+const gameNotice = document.getElementById('game-notice');
+let noticeTimeout;
+const showGameNotice = (message) => {
+  gameNotice.textContent = message;
+  gameNotice.classList.remove('hidden');
+  window.clearTimeout(noticeTimeout);
+  noticeTimeout = window.setTimeout(() => gameNotice.classList.add('hidden'), 4200);
+};
+
+let battleMode = false;
+document.getElementById('battle-action').addEventListener('click', () => {
+  battleMode = !battleMode;
+  document.querySelectorAll('.game-card').forEach((card) => card.classList.toggle('pick-mode', battleMode));
+  showGameNotice(battleMode ? 'בחרו קלף לאתגר הדגמה ⚔️' : 'מצב הקרב נסגר');
+});
+document.querySelectorAll('.game-card').forEach((card) => {
+  card.addEventListener('click', () => {
+    if (battleMode) {
+      battleMode = false;
+      document.querySelectorAll('.game-card').forEach((item) => item.classList.remove('pick-mode'));
+      showGameNotice(`האתגר נגד ${card.querySelector('.card-front h3').textContent} מוכן! (הדגמה)`);
+      return;
+    }
+    card.classList.toggle('flipped');
+  });
+});
+document.getElementById('skills-action').addEventListener('click', () => {
+  showGameNotice('מיומנות זמינה: קפיצה חכמה ✨ (הדגמה)');
+});
+
+document.getElementById('save-campaign').addEventListener('click', () => {
+  const message = document.getElementById('campaign-message').value.trim();
+  if (!message) {
+    alert('כתבו הודעת מבצע לפני הפרסום');
+    return;
+  }
+  localStorage.setItem('farm_campaign_demo', message);
+  showAdminTab('students');
+  showGameNotice(`🏆 מבצע חדש: ${message}`);
+});
+
+document.getElementById('send-flash').addEventListener('click', () => {
+  const message = document.getElementById('flash-message').value.trim();
+  if (!message) {
+    alert('כתבו הודעה לפני השליחה');
+    return;
+  }
+  showAdminTab('students');
+  showGameNotice(`📢 ${message}`);
+  document.getElementById('flash-message').value = '';
 });
 
 document.querySelectorAll('.nav-dot').forEach((dot, index) => {
@@ -151,8 +215,11 @@ document.querySelectorAll('.nav-dot').forEach((dot, index) => {
   });
 });
 
-document.querySelectorAll('.game-card').forEach((card) => {
-  card.addEventListener('click', () => card.classList.toggle('flipped'));
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    bagDialog.classList.add('hidden');
+    shopDialog.classList.add('hidden');
+  }
 });
 
 window.logout = function logout() {
@@ -164,6 +231,9 @@ window.logout = function logout() {
   studentSuggestions.innerHTML = '';
   document.getElementById('admin-panel').classList.add('hidden');
   bagDialog.classList.add('hidden');
+  shopDialog.classList.add('hidden');
+  battleMode = false;
+  document.querySelectorAll('.game-card').forEach((card) => card.classList.remove('pick-mode'));
 };
 
 window.addEventListener('click', (event) => {

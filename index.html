@@ -45,6 +45,13 @@
     </div>
 
     <div id="game-screen" class="hidden">
+      <nav class="game-actions" aria-label="פעולות במשחק">
+        <button id="battle-action" type="button" aria-label="קרבות">⚔️<span>קרבות</span></button>
+        <button id="skills-action" type="button" aria-label="מיומנויות">✨<span>מיומנויות</span></button>
+        <button id="shop-action" type="button" aria-label="חנות">🛒<span>חנות</span></button>
+        <button id="bag-action" type="button" aria-label="תיק">🎒<span>תיק</span></button>
+      </nav>
+      <div id="game-notice" class="game-notice hidden" role="status"></div>
       <div id="game-layout">
         <aside id="student-sidebar">
           <div id="sidebar-creature-card" class="creature-focus">
@@ -206,6 +213,8 @@
           <button class="admin-tab active" data-tab="students" type="button">רשימת תלמידים</button>
           <button class="admin-tab" data-tab="add-student" type="button">הוסף תלמיד</button>
           <button class="admin-tab" data-tab="questions" type="button">❓ ניהול שאלות</button>
+          <button class="admin-tab" data-tab="campaign" type="button">🏆 מבצע</button>
+          <button class="admin-tab" data-tab="flash" type="button">📢 הודעת הבזק</button>
         </div>
 
         <section class="admin-tab-content" data-panel="students">
@@ -305,6 +314,22 @@
             </div>
           </div>
         </section>
+
+        <section class="admin-tab-content hidden" data-panel="campaign">
+          <div class="admin-add-box">
+            <label for="campaign-message">הודעת המבצע</label>
+            <input id="campaign-message" type="text" placeholder="למשל: צברו 100 נקודות השבוע!" />
+            <button class="primary-btn green" id="save-campaign" type="button">פרסם מבצע</button>
+          </div>
+        </section>
+
+        <section class="admin-tab-content hidden" data-panel="flash">
+          <div class="admin-add-box">
+            <label for="flash-message">הודעה לכל המשתמשים</label>
+            <input id="flash-message" type="text" placeholder="כתבו הודעת הבזק..." />
+            <button class="primary-btn orange" id="send-flash" type="button">שלח הודעה</button>
+          </div>
+        </section>
       </div>
     </div>
 
@@ -317,6 +342,19 @@
           <span>🧪 שיקוי אנרגיה × 2</span>
           <span>🛡️ מגן עלים × 1</span>
           <span>⭐ כוכב XP × 3</span>
+        </div>
+
+        <div id="shop-dialog" class="dialog-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="shop-title">
+          <section class="dialog-card">
+            <button class="dialog-close" data-close-dialog="shop-dialog" type="button" aria-label="סגירה">×</button>
+            <h2 id="shop-title">🛒 חנות החווה</h2>
+            <p>פריטים לדוגמה — הרכישה אינה מחוברת לשרת.</p>
+            <div class="inventory-items">
+              <span>🧪 שיקוי אנרגיה — 25 מטבעות</span>
+              <span>🛡️ מגן עלים — 40 מטבעות</span>
+              <span>✨ כוכב XP — 60 מטבעות</span>
+            </div>
+          </section>
         </div>
       </section>
     </div>

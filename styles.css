@@ -31,10 +31,11 @@ body {
   min-height: 100vh;
   background-color: #b7e5c4;
   background-image:
-    radial-gradient(ellipse at 12% 18%, rgba(255, 255, 255, 0.6) 0 2%, transparent 20%),
-    radial-gradient(ellipse at 88% 30%, rgba(255, 245, 190, 0.45) 0 3%, transparent 24%),
-    linear-gradient(180deg, rgba(214, 246, 255, 0.72) 0%, rgba(214, 246, 255, 0.35) 45%, rgba(90, 163, 91, 0.3) 100%),
-    linear-gradient(135deg, #a4d8a7, #e1efb5 48%, #9dd5b1);
+    radial-gradient(ellipse at 8% 12%, rgba(255,255,255,.62) 0 3%, transparent 19%),
+    radial-gradient(ellipse at 86% 22%, rgba(255,248,203,.58) 0 4%, transparent 25%),
+    radial-gradient(ellipse at 20% 84%, rgba(40,112,54,.22) 0 12%, transparent 35%),
+    radial-gradient(ellipse at 80% 90%, rgba(34,116,50,.2) 0 14%, transparent 38%),
+    linear-gradient(180deg, #b9e8ef 0%, #d9f0c6 44%, #a9d48f 100%);
   background-attachment: fixed;
 }
 
@@ -51,8 +52,8 @@ button {
 }
 
 #login-screen {
-  width: min(92vw, 360px);
-  margin: 56px auto 0;
+  width: min(92vw, 400px);
+  margin: 50px auto 20px;
   background: var(--panel);
   border: 2px solid #7ad68e;
   border-radius: 22px;
@@ -77,6 +78,14 @@ button {
   justify-content: center;
   gap: 10px;
   margin-bottom: 18px;
+}
+
+.login-panel:not(.active) {
+  display: none;
+}
+
+.login-tabs + .demo-notice + .login-panel {
+  margin-top: 8px;
 }
 
 .tab-btn {
@@ -195,7 +204,59 @@ input:focus, select:focus {
 }
 
 #game-screen {
-  padding: 30px 18px;
+  padding: 22px 18px 30px;
+  min-height: 100vh;
+}
+
+.game-actions {
+  position: fixed;
+  z-index: 15;
+  top: 16px;
+  left: 16px;
+  display: grid;
+  gap: 8px;
+}
+
+.game-actions button {
+  display: grid;
+  place-items: center;
+  gap: 2px;
+  width: 66px;
+  height: 66px;
+  border: 2px solid rgba(255,255,255,.75);
+  border-radius: 18px;
+  background: linear-gradient(145deg, #fff, #eaf5e9);
+  color: #245c2a;
+  box-shadow: 0 5px 16px rgba(30, 75, 43, .2);
+  font-size: 1.65rem;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.game-actions button:hover {
+  transform: translateX(3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(30,75,43,.27);
+}
+
+.game-actions button span {
+  font-size: .62rem;
+  font-weight: 800;
+}
+
+.game-notice {
+  position: fixed;
+  z-index: 25;
+  top: 18px;
+  left: 50%;
+  max-width: min(88vw, 540px);
+  transform: translateX(-50%);
+  padding: 12px 22px;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #e53935, #ff8f00);
+  color: #fff;
+  box-shadow: 0 5px 18px rgba(130, 48, 20, .3);
+  font-weight: 800;
+  text-align: center;
 }
 
 #game-layout {
@@ -207,7 +268,8 @@ input:focus, select:focus {
 }
 
 #student-sidebar {
-  width: 280px;
+  flex: 0 0 250px;
+  width: 250px;
   background: rgba(255,255,255,0.9);
   border: 2px solid #81c784;
   border-radius: 22px;
@@ -321,13 +383,15 @@ input:focus, select:focus {
   flex: 1;
   min-width: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 190px));
+  justify-content: center;
+  gap: 14px;
 }
 
 .game-card {
   perspective: 1000px;
-  min-height: 310px;
+  width: 190px;
+  height: 310px;
   cursor: pointer;
 }
 
@@ -367,11 +431,11 @@ input:focus, select:focus {
   position: absolute;
   inset: 0;
   backface-visibility: hidden;
-  border-radius: 22px;
+  border-radius: 20px;
   background: rgba(255,255,255,0.96);
-  box-shadow: 0 14px 24px rgba(0,0,0,0.08);
-  border-bottom: 6px solid #81c784;
-  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.16);
+  border-bottom: 5px solid #81c784;
+  padding: 15px;
 }
 
 .card-front {
@@ -427,6 +491,18 @@ input:focus, select:focus {
   border-radius: 50%;
   background: linear-gradient(135deg, #e0f7fa, #dcedc8);
   box-shadow: inset 0 0 18px rgba(255,255,255,0.8);
+}
+
+.game-card:nth-child(3n + 1) .card-art {
+  background: radial-gradient(circle at 35% 28%, #fff8cc, #bbebc7 72%);
+}
+
+.game-card:nth-child(3n + 2) .card-art {
+  background: radial-gradient(circle at 35% 28%, #ffe6c8, #c8e8ec 72%);
+}
+
+.game-card:nth-child(3n) .card-art {
+  background: radial-gradient(circle at 35% 28%, #eee1ff, #d4efcf 72%);
 }
 
 .card-front h3 {
@@ -640,12 +716,30 @@ th {
 }
 
 @media (max-width: 900px) {
+  .game-actions {
+    position: static;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 14px;
+  }
+
+  .game-actions button {
+    width: 58px;
+    height: 58px;
+    border-radius: 15px;
+  }
+
   #game-layout {
     flex-direction: column;
   }
 
   #student-sidebar {
     width: 100%;
+    flex-basis: auto;
+  }
+
+  #card-grid {
+    grid-template-columns: repeat(auto-fit, minmax(170px, 190px));
   }
 }
 
