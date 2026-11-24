@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>חוות הקלפים</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="login-screen" class="panel fade-in">
+      <h2>חוות הקלפים 🃏</h2>
+
+      <div class="login-tabs" aria-label="בחירת סוג התחברות">
+        <button class="tab-btn" data-tab="admin">מנהל</button>
+        <button class="tab-btn" data-tab="teacher">מורה</button>
+        <button class="tab-btn active" data-tab="student">תלמיד</button>
+      </div>
+      <p class="demo-notice">גרסת הדגמה — אין כאן חשבונות או סיסמאות אמיתיים.</p>
+
+      <div class="login-panel" data-panel="admin">
+        <button class="primary-btn admin-btn" type="button">כניסת מנהל להדגמה 🔑</button>
+      </div>
+
+      <div class="login-panel hidden" data-panel="teacher">
+        <select id="teacherGrade">
+          <option value="">בחר כיתה...</option>
+          <option value="א">כיתה א'</option>
+          <option value="ב">כיתה ב'</option>
+          <option value="ג">כיתה ג'</option>
+          <option value="ד">כיתה ד'</option>
+          <option value="ה">כיתה ה'</option>
+          <option value="ו">כיתה ו'</option>
+        </select>
+        <button class="primary-btn teacher-btn purple" type="button">כניסת מורה להדגמה 📚</button>
+      </div>
+
+      <div class="login-panel active" data-panel="student">
+        <p>כניסת תלמידים:</p>
+        <div class="search-wrap">
+          <input type="text" id="studentSearch" placeholder="הקלד את שמך..." autocomplete="off" />
+          <div id="studentSuggestions" class="suggestions" aria-live="polite"></div>
+        </div>
+        <button class="primary-btn student-btn blue" type="button">כניסה להדגמה 🎮</button>
+      </div>
+    </div>
+
+    <div id="game-screen" class="hidden">
+      <div id="game-layout">
+        <aside id="student-sidebar">
+          <div id="sidebar-creature-card" class="creature-focus">
+            <div class="creature-image">🐸</div>
+            <div id="sidebar-creature-nav" class="creature-nav">
+              <button class="nav-dot active" type="button" aria-label="creature 1"></button>
+              <button class="nav-dot" type="button" aria-label="creature 2"></button>
+              <button class="nav-dot" type="button" aria-label="creature 3"></button>
+            </div>
+          </div>
+
+          <div id="sidebar-name">ליאון</div>
+          <div id="sidebar-level">רמה 12</div>
+
+          <div id="sidebar-xp-section">
+            <div class="sidebar-xp-track">
+              <div id="sidebar-xp-bar" class="sidebar-xp-bar"></div>
+            </div>
+            <div id="sidebar-xp-text">580 / 900 XP</div>
+          </div>
+
+          <div id="sidebar-actions">
+            <span id="sidebar-energy">⚡ 5/8</span>
+            <button type="button" class="side-btn" id="open-bag">🎒 תיק</button>
+            <button type="button" class="side-btn danger" onclick="logout()">🚪 התנתק</button>
+          </div>
+        </aside>
+
+        <main id="card-grid" aria-live="polite">
+          <article class="game-card active">
+            <div class="card-inner">
+              <div class="card-front">
+                <span class="card-rank">Lv. 12</span>
+                <div class="card-art frog">🐸</div>
+                <h3>צפרדע חכמה</h3>
+                <div class="xp-line"><span style="width: 72%"></span></div>
+              </div>
+              <div class="card-back">
+                <h4>צפרדע חכמה</h4>
+                <p>שימוש מושלם ללימודי טבע ומחקר מדעי.</p>
+                <ul>
+                  <li>⚡ מהירות: 8</li>
+                  <li>🛡️ הגנה: 6</li>
+                  <li>✨ מיומנות: קפיצה חכמה</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="game-card">
+            <div class="card-inner">
+              <div class="card-front">
+                <span class="card-rank">Lv. 10</span>
+                <div class="card-art fox">🦊</div>
+                <h3>שועל זריז</h3>
+                <div class="xp-line"><span style="width: 66%"></span></div>
+              </div>
+              <div class="card-back">
+                <h4>שועל זריז</h4>
+                <p>שחקן מהיר עם תגובות מצוינות.</p>
+                <ul>
+                  <li>⚡ מהירות: 9</li>
+                  <li>🛡️ הגנה: 5</li>
+                  <li>✨ מיומנות: חידה</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="game-card">
+            <div class="card-inner">
+              <div class="card-front">
+                <span class="card-rank">Lv. 11</span>
+                <div class="card-art owl">🦉</div>
+                <h3>ינשוף חכם</h3>
+                <div class="xp-line"><span style="width: 78%"></span></div>
+              </div>
+              <div class="card-back">
+                <h4>ינשוף חכם</h4>
+                <p>בעל שכל עדין ואסטרטגיה טובה.</p>
+                <ul>
+                  <li>⚡ מהירות: 6</li>
+                  <li>🛡️ הגנה: 8</li>
+                  <li>✨ מיומנות: תזמון</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="game-card group-card">
+            <div class="card-inner">
+              <div class="card-front">
+                <span class="card-rank">Lv. 9</span>
+                <div class="card-art wolf">🐺</div>
+                <h3>זאב צוות</h3>
+                <div class="xp-line"><span style="width: 58%"></span></div>
+              </div>
+              <div class="card-back">
+                <h4>זאב צוות</h4>
+                <p>המיועד לשיתוף פעולה וכולל כוחות קבוצתיים.</p>
+                <ul>
+                  <li>⚡ מהירות: 7</li>
+                  <li>🛡️ הגנה: 7</li>
+                  <li>✨ מיומנות: שיתוף</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="game-card">
+            <div class="card-inner">
+              <div class="card-front">
+                <span class="card-rank">Lv. 13</span>
+                <div class="card-art dragon">🐉</div>
+                <h3>דרקון אש</h3>
+                <div class="xp-line"><span style="width: 88%"></span></div>
+              </div>
+              <div class="card-back">
+                <h4>דרקון אש</h4>
+                <p>אחד הכוחות החזקים עם השפעה חזקה על תחרות.</p>
+                <ul>
+                  <li>⚡ מהירות: 9</li>
+                  <li>🛡️ הגנה: 9</li>
+                  <li>✨ מיומנות: אש</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <article class="game-card">
+            <div class="card-inner">
+              <div class="card-front">
+                <span class="card-rank">Lv. 7</span>
+                <div class="card-art rabbit">🐰</div>
+                <h3>ארנב מהיר</h3>
+                <div class="xp-line"><span style="width: 52%"></span></div>
+              </div>
+              <div class="card-back">
+                <h4>ארנב מהיר</h4>
+                <p>מומלץ לשחקנים שמחפשים גמישות ותגובה.</p>
+                <ul>
+                  <li>⚡ מהירות: 10</li>
+                  <li>🛡️ הגנה: 4</li>
+                  <li>✨ מיומנות: קפיצה</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+        </main>
+      </div>
+
+      <div id="admin-panel" class="hidden">
+        <div class="admin-header">
+          <span id="admin-title">לוח ניהול</span>
+          <button class="side-btn danger" type="button" onclick="logout()">🚪 התנתק</button>
+        </div>
+
+        <div class="admin-tabs">
+          <button class="admin-tab active" data-tab="students" type="button">רשימת תלמידים</button>
+          <button class="admin-tab" data-tab="add-student" type="button">הוסף תלמיד</button>
+          <button class="admin-tab" data-tab="questions" type="button">❓ ניהול שאלות</button>
+        </div>
+
+        <section class="admin-tab-content" data-panel="students">
+          <div class="admin-toolbar">
+            <input type="text" id="admin-search" placeholder="🔍 חפש תלמיד..." />
+            <div class="filter-row">
+              <button class="chip active" type="button">כל הכיתות</button>
+              <button class="chip" type="button">א</button>
+              <button class="chip" type="button">ב</button>
+              <button class="chip" type="button" data-grade="ג">ג</button>
+              <button class="chip" type="button" data-grade="ד">ד</button>
+              <button class="chip" type="button" data-grade="ה">ה</button>
+              <button class="chip" type="button" data-grade="ו">ו</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr data-name="נועה כהן" data-grade="ג">
+                  <th>שם</th>
+                  <th>כיתה</th>
+                  <th>שלב</th>
+                  <th>ניקוד</th>
+                  <th>סטטוס</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-name="איתן לוי" data-grade="ב">
+                  <td>נועה כהן</td>
+                  <td>ג</td>
+                  <td>12</td>
+                  <td>870</td>
+                  <td><span class="status ok">פעיל</span></td>
+                </tr>
+                <tr data-name="מיה שמיר" data-grade="ד">
+                  <td>איתן לוי</td>
+                  <td>ב</td>
+                  <td>9</td>
+                  <td>640</td>
+                  <td><span class="status ok">פעיל</span></td>
+                </tr>
+                <tr data-name="דניאל גולן" data-grade="ה">
+                  <td>מיה שמיר</td>
+                  <td>ד</td>
+                  <td>14</td>
+                  <td>980</td>
+                  <td><span class="status warning">בהמתנה</span></td>
+                </tr>
+                <tr>
+                  <td>דניאל גולן</td>
+                  <td>ה</td>
+                  <td>11</td>
+                  <td>760</td>
+                  <td><span class="status ok">פעיל</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="admin-tab-content hidden" data-panel="add-student">
+          <div class="admin-add-box">
+            <input type="text" id="new-student-name" placeholder="👤 שם מלא" />
+            <select id="new-student-grade">
+              <option value="">בחר כיתה</option>
+              <option>א</option>
+              <option>ב</option>
+              <option>ג</option>
+              <option>ד</option>
+              <option>ה</option>
+              <option>ו</option>
+            </select>
+            <label><input type="checkbox" /> קבוצה</label>
+            <button class="primary-btn purple" id="add-student-button" type="button">➕ הוסף</button>
+          </div>
+        </section>
+
+        <section class="admin-tab-content hidden" data-panel="questions">
+          <div class="question-toolbar">
+            <button class="primary-btn green" type="button">➕ הוסף שאלה חדשה</button>
+            <button class="primary-btn orange" type="button">✏️ ערוך שאלה</button>
+          </div>
+
+          <div class="question-list">
+            <div class="question-item">
+              <strong>שאלה 1</strong>
+              <p>מה קורה כשחולפים על תכונה של חיה?</p>
+            </div>
+            <div class="question-item">
+              <strong>שאלה 2</strong>
+              <p>בחר את הדמות המתאימה ביותר לקבוצה.</p>
+            </div>
+            <div class="question-item">
+              <strong>שאלה 3</strong>
+              <p>הסבר כיצד צוברים XP דרך משימות.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div id="bag-dialog" class="dialog-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="bag-title">
+      <section class="dialog-card">
+        <button class="dialog-close" id="close-bag" type="button" aria-label="סגירה">×</button>
+        <h2 id="bag-title">🎒 התיק שלי</h2>
+        <p>הציוד שאספת במהלך ההרפתקה:</p>
+        <div class="inventory-items">
+          <span>🧪 שיקוי אנרגיה × 2</span>
+          <span>🛡️ מגן עלים × 1</span>
+          <span>⭐ כוכב XP × 3</span>
+        </div>
+      </section>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
